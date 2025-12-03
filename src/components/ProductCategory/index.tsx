@@ -1,10 +1,14 @@
 import './style.css'
 
-export default function ProductCategory() {
+type Props = {
+    name : String;
+}
+
+export default function ProductCategory({ name } : Props) {
 
     return (
         <div className="dsc-category">
-            Eletronicos
+            {name}
         </div>
     );
 }
