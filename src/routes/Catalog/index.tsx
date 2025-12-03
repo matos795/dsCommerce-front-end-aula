@@ -26,7 +26,7 @@ export default function Catalog() {
                         <CatalogCard />
                     </div>
 
-                    <ButtomNextPage />
+                    <ButtomNextPage text = "Carregar mais"/>
                 </section>
             </main>
         </>
