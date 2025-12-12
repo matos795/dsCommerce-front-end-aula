@@ -6,8 +6,7 @@ import ProductDetailsCard from '../../../components/ProductDetailsCard';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import type { ProductDTO } from '../../../models/product';
-import axios from 'axios'
-
+import * as productService from '../../../services/product-service'
 
 export default function ProductDetails() {
 
@@ -17,7 +16,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
 
-    axios.get(`http://localhost:8080/products/${params.productId}`)
+      productService.findById(Number(params.productId))
       .then(response => {
         console.log(response.data);
 
