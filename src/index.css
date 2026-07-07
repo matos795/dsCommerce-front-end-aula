@@ -10,6 +10,8 @@
     --color-green: #0CAF1D;
     --color-blue: #3483FA;
     --color-form-error-red: #FF3333;
+
+    --dsc-color-bg-notification: #f00;
 }
 
 * {
