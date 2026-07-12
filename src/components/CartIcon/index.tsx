@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import cartIcon from "../../assets/cart.svg"
 import "./styles.css"
 import { ContextCartCount } from "../../utils/context-cart";
