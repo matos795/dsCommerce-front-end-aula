@@ -6,7 +6,7 @@ import { requestBackend } from "../utils/requests";
 import * as accessTokenRepository from "../localstorage/access-token-repository"
 
 export function loginRequest(loginData: CredentialsDTO) {
-    const header = {
+    const headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET)
     }
@@ -15,9 +15,9 @@ export function loginRequest(loginData: CredentialsDTO) {
 
     const config : AxiosRequestConfig = {
         method: "POST",
-        url: "/oauth/token",
+        url: "/oauth2/token",
         data: requestBody,
-        headers: header
+        headers
     }
 
     return requestBackend(config);
@@ -32,5 +32,5 @@ export function saveAccessToken(token: string) {
 }
 
 export function getAccessToken() {
-    accessTokenRepository.get();
+    return accessTokenRepository.get();
 }
