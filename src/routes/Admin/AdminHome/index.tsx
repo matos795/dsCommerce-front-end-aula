@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 import type { UserDTO } from "../../../models/user";
 import * as userService from "../../../services/user-service"
+import { useNavigate } from "react-router-dom";
 
 export default function AdminHome() {
 
     const [user, setUser] = useState<UserDTO>();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         userService.findMe()
@@ -14,6 +17,9 @@ export default function AdminHome() {
             console.log(response.data);
         })
         .catch(error => {
+            if(error.response.status === 401) {
+                navigate("/login");
+            }
             console.log("Error ", error);
         })
     }, [])
