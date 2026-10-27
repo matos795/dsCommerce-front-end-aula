@@ -1,0 +1,18 @@
+#confirmation-container-section {
+    padding: 20px 0px;
+}
+
+.dsc-confirm-message {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-gray);
+    text-align: center;
+}
+
+@media(min-width: 576px) {
+    .dsc-confirm-message {
+        font-size: 24px;
+        font-weight: 700;
+        text-align: left;
+    }
+}

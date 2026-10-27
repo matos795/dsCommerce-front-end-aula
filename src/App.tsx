@@ -16,6 +16,7 @@ import type { AccessTokenPayloadDTO } from './models/auth';
 import { ContextToken } from './utils/context-token';
 import * as authService from './services/auth-service';
 import * as cartService from './services/cart-sevice';
+import Confirmation from './routes/ClientHome/Confirmation';
 
 export default function App() {
 
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="product-details/:productId" element={<ProductDetails />} />
               <Route path='cart' element={<Cart />} />
               <Route path='login' element={<Login />} />
+              <Route path="confirmation/:orderId" element={<Confirmation />} />
             </Route>
             <Route path="/admin/" element={
               <PrivateRoute roles={['ROLE_ADMIN']}>
