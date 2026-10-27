@@ -1,5 +1,4 @@
 import './style.css'
-import cartIcon from '../../assets/cart.svg';
 import { Link } from 'react-router-dom';
 import CartIcon from '../CartIcon';
 
@@ -19,9 +18,7 @@ export default function HeaderClient() {
                             </div>
                         </Link>
                     </div>
-                    <Link to="/login">
-                        <a href="#">Entrar</a>
-                    </Link>
+                    <Link to="/login">Entrar</Link>
                 </div>
             </nav>
         </header>
