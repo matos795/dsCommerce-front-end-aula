@@ -4,6 +4,8 @@ import './styles.css';
 import { useEffect, useState } from 'react';
 import type { ProductDTO } from '../../../models/product';
 import * as productService from '../../../services/product-service'
+import SearchBar from '../../../components/SearchBar';
+import ButtomNextPage from '../../../components/ButtomNextPage';
 
 type QueryParams = {
     page: number,
@@ -30,6 +32,16 @@ export default function ProductListing() {
             })
     }, [queryParams])
 
+    function handleSearch(searchText: string) {
+        setProducts([]);
+        setQueryParams({ ...queryParams, page: 0, name: searchText });
+    }
+
+    function handleNextPageClick() {
+        const newPage = queryParams.page + 1
+        setQueryParams({ ...queryParams, page: newPage })
+    }
+
     return (
         <main>
             <section id="product-listing-container-section" className="dsc-container">
@@ -40,25 +52,23 @@ export default function ProductListing() {
                     <div className="dsc-btn dsc-btn-white">Novo</div>
                 </div>
 
-                <form className="dsc-search-bar">
-                    <button type="submit">🔎︎</button>
-                    <input type="text" placeholder="Nome do produto" />
-                    <button type="reset">✖</button>
-                </form>
+                <SearchBar onSearch={handleSearch} />
 
                 <table className="dsc-table dsc-mb20 dsc-mt20">
                     <thead>
-                        <th className="dcs-tb576">ID</th>
-                        <th></th>
-                        <th className="dcs-tb768">Preço</th>
-                        <th className="dsc-txt-left">Nome</th>
-                        <th></th>
-                        <th></th>
+                        <tr>
+                            <th className="dcs-tb576">ID</th>
+                            <th></th>
+                            <th className="dcs-tb768">Preço</th>
+                            <th className="dsc-txt-left">Nome</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         {
                             products.map(product => (
-                                <tr>
+                                <tr key={product.id}>
                                     <td className="dcs-tb576">{product.id}</td>
                                     <td><img className="dsc-product-listing-image" src={product.imgUrl} alt={product.name} /></td>
                                     <td className="dcs-tb768">R$ {product.price.toFixed(2)}</td>
@@ -71,9 +81,10 @@ export default function ProductListing() {
                     </tbody>
                 </table>
 
-                <div className="dsc-btn-next-page">
-                    Carregar mais
-                </div>
+                {
+                    !isLastPage &&
+                    <ButtomNextPage onNextPage={handleNextPageClick} text="Carregar mais" />
+                }
             </section>
         </main>
     );

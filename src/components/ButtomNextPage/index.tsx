@@ -2,11 +2,12 @@ import './style.css';
 
 type Props = {
     text: string;
+    onNextPage: () => void;
 }
 
-export default function ButtomNextPage({ text }: Props) {
+export default function ButtomNextPage({ text, onNextPage }: Props) {
     return(
-        <div className="dsc-btn-next-page">
+        <div className="dsc-btn-next-page" onClick={() => onNextPage()}>
             {text}
         </div>
     );
