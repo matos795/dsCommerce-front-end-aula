@@ -6,6 +6,7 @@ import type { ProductDTO } from '../../../models/product';
 import * as productService from '../../../services/product-service'
 import SearchBar from '../../../components/SearchBar';
 import ButtomNextPage from '../../../components/ButtomNextPage';
+import DialogInfo from '../../../components/DialogInfo';
 
 type QueryParams = {
     page: number,
@@ -86,6 +87,7 @@ export default function ProductListing() {
                     <ButtomNextPage onNextPage={handleNextPageClick} text="Carregar mais" />
                 }
             </section>
+            <DialogInfo />
         </main>
     );
 }
