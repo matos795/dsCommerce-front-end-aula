@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import './styles.css';
 import ButtonInverse from '../../../components/ButtonInverse';
 import { useEffect, useState } from 'react';
@@ -13,11 +13,13 @@ import { selectStyles } from '../../../utils/select';
 
 export default function ProductForm() {
 
+    const navigate = useNavigate();
+
     const params = useParams();
 
     const isEditing = params.productId !== 'create';
 
-    const [ categories, setCategories ] = useState<CategoryDTO[]>([]);
+    const [categories, setCategories] = useState<CategoryDTO[]>([]);
 
     const [formData, setFormData] = useState<any>({
         name: {
@@ -26,8 +28,8 @@ export default function ProductForm() {
             name: "name",
             type: "text",
             placeholder: "Nome",
-            validation: function(value: string) {
-                return value.length >=3 && value.length <= 80;
+            validation: function (value: string) {
+                return value.length >= 3 && value.length <= 80;
             },
             message: "Favor informar um nome entre 3 e 80 caracteres",
         },
@@ -37,7 +39,7 @@ export default function ProductForm() {
             name: "price",
             type: "number",
             placeholder: "Preço",
-            validation: function(value: any) { return Number(value) > 0 },
+            validation: function (value: any) { return Number(value) > 0 },
             message: "Favor informar um preço válido",
         },
         imgUrl: {
@@ -53,8 +55,8 @@ export default function ProductForm() {
             name: "description",
             type: "text",
             placeholder: "Descrição",
-            validation: function(value: string) {
-                return value.length >=10;
+            validation: function (value: string) {
+                return value.length >= 10;
             },
             message: "Favor informar uma descrição de pelo menos 10 caracteres",
         },
@@ -63,7 +65,7 @@ export default function ProductForm() {
             id: "categories",
             name: "categories",
             placeholder: "Categorias",
-            validation: function(value: CategoryDTO[]) {
+            validation: function (value: CategoryDTO[]) {
                 return value.length > 0;
             },
             message: "Favor selecionar pelo menos uma categoria",
@@ -105,6 +107,21 @@ export default function ProductForm() {
             setFormData(formDataValidated);
             return;
         }
+
+        const requestBody = forms.toValues(formDataValidated);
+
+        if (isEditing) {
+            requestBody.id = Number(params.productId);
+        }
+
+        const request = isEditing
+            ? productService.updateRequest(requestBody)
+            : productService.insertRequest(requestBody);
+
+        request
+            .then(() => {
+                navigate("/admin/products");
+            });
     }
 
     return (
@@ -142,19 +159,19 @@ export default function ProductForm() {
                                 <div className='dsc-form-error'>{formData.imgUrl.message}</div>
                             </div>
                             <div>
-                                <FormSelect 
-                                { ...formData.categories }
-                                className="dsc-form-control dsc-form-select-container"
-                                styles={selectStyles}
-                                options={categories}
-                                onChange={(obj: CategoryDTO[]) => {
-                                    const newFormData = forms.updateAndValidate(formData, "categories", obj);
-                                    setFormData(newFormData);
-                                }}
-                                onTurnDirty={handleTurnDirty}
-                                isMulti
-                                getOptionLabel={(obj: CategoryDTO) => obj.name}
-                                getOptionValue={(obj: CategoryDTO) => String(obj.id)}
+                                <FormSelect
+                                    {...formData.categories}
+                                    className="dsc-form-control dsc-form-select-container"
+                                    styles={selectStyles}
+                                    options={categories}
+                                    onChange={(obj: CategoryDTO[]) => {
+                                        const newFormData = forms.updateAndValidate(formData, "categories", obj);
+                                        setFormData(newFormData);
+                                    }}
+                                    onTurnDirty={handleTurnDirty}
+                                    isMulti
+                                    getOptionLabel={(obj: CategoryDTO) => obj.name}
+                                    getOptionValue={(obj: CategoryDTO) => String(obj.id)}
                                 />
                                 <div className='dsc-form-error'>{formData.categories.message}</div>
                             </div>
